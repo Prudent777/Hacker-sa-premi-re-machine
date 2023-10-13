@@ -1,91 +1,247 @@
-# Hacker-sa-premi-re-machine
-Ligne de Hacking : gobuster -u http://fakebank.com -w wordlist.txt dir
+<#
+exercice 1 - Trouver les services qui sont démarré !
+exercice 2 - Afficher toutes les CMDLETs disponibles en PS
+exercice 3 - Afficher seulement les CMDLETs qui commence par Get
+exercice 4 - Trouver comment naviguer entre les répertoires en PS 
+exercice 5 - Trouver comment afficher le contenu du répertoire courant en PS
+exercice 6 - Chercher sur votre OS tous les fichiers supérieur à 300 Mb
+exercice 7 - vous devez trouver tous les fichiers de plus de 300 Mb et les mettres dans un fichier .csv
+exercice 8 Écrire un programme qui écrit 500 fois « Je dois faire des sauvegardes régulières de mes fichiers. »
+exercice 9 Écrire un programme qui affiche tous les nombres impairs entre 0 et 15000, par ordre croissant : « 1 3 5 7 ... 14995 14997 14999 »
+exercice 10 Écrire un programme qui affiche la table de multiplication par 13
+exercice 11 Ecrire un programme qui demande un mot à l’utilisateur et qui affiche à l’écran le nombre de lettres de ce mot.
+exercice 12 Ecrire un programme qui demande un nombre entier à l’utilisateur. L’ordinateur affiche ensuite le message "Ce nombre est pair" ou "Ce nombre est impair" selon le cas.
+exercice 13 Ecrire un programme qui demande un nombre compris entre 10 et 20, jusqu’à ce que la réponse convienne. En cas de réponse supérieure à 20, on fera apparaître un message : « Plus petit ! », et inversement, « Plus grand ! » si le nombre est inférieur à 10. 
+exercice 14 Ecrire un programme qui demande un nombre de départ, et qui ensuite affiche les dix nombres suivants. Par exemple, si l'utilisateur entre le nombre 17, le programme affichera les nombres de 18 à 27. 
+exercice 15 Ecrire un programme qui demande un nombre de départ, et qui ensuite écrit la table de multiplication de ce nombre.
+exercice 16 Ecrire un programme qui demande un nombre de départ, et qui calcule la somme des entiers jusqu’à ce nombre. Par exemple, si l’on entre 5, le programme doit calculer : 1 + 2 + 3 + 4 + 5 = 15, afficher que le résultat 
+exercice 17 Ecrire un programme qui demande l’âge d’un enfant à l’utilisateur. Ensuite il l’informe de sa catégorie :
+		”Poussin” de 6 à 7 ans
+		”Pupille” de 8 à 9 ans
+		”Minime” de 10 à 11 ans
+		”Cadet” après 12 ans
+exercice 18 - Vous devez trouver tous les fichier .txt et les renommer en .old
+exercice 19 - Faire un script qui demande à l’utilisateur d’entrer le numéro du département où il habite et le script affichera le nom de celui-ci.
+aide: https://api.gouv.fr/api/api-geo.html
+exercice 20 - Écrire un programme qui calcule la factorielle de n.
+exercice 21 - Écrire un programme qui convertit un nombre décimal (base 10) en binaire (base 2)
+exercice 22 - Si nous listons tous les nombres naturels inférieurs à 10 qui sont des multiples de 3 et 5, nous avons 3, 5, 6 et 9. La somme de ces multiples est 23.
+    Trouvez la somme de tous les multiples de 3 et 5 inférieurs à 1000.
+exercice 23 - Écrire un programme qui affiche le 1500ème nombre de la suite de Fibonacci.
+exercice 24 - Écrire un programme qui affiche le plus petit nombre positif divisible par tous les nombres de 1 à 20 avec un résultat entier.
+#>
 
+Function exo01
+{
+    Get-Service | Where-Object {$_.Status -eq "Running"}
+}
 
-[ -u ]   est utilisé pour indiquer le site Web que nous analysons.
+Function exo02
+{
+    Get-Help * | Where-Object Category -eq 'Cmdlet'
+}
 
-[ -w ]  prend une liste de mots à parcourir pour trouver des pages cachées.
+Function exo03
+{
+    Get-Help * | Where-Object Name -Match "^Get.*"
+}
 
+Function exo04
+{
+    cd args[0]
+}
 
+Function exo05
+{
+    dir
+}
 
+Function exo06
+{
+    Get-ChildItem 'C:' -recurse | where-object {$_.length -gt 300000000} | Sort-Object length | Select-Object fullname, length
+}
 
-Introduction à la sécurité offensive   :   
+Function exo07
+{
+    Get-ChildItem 'C:' -recurse | where-object {$_.length -gt 300000000} | Sort-Object length | Select-Object fullname, length | Export-Csv -Path "data.csv"
+}
 
+Function exo08
+{
+    for ($i = 0; $i -lt 500; $i++) {
+        Write-Host "Je dois faire des sauvegardes régulières de mes fichiers."
+    }
+}
 
+Function exo09
+{
+    for ($i = 1; $i -lt 1500; $i = $i + 2) {
+        Write-Host $i
+    }
+}
 
-Hacker sa première machine   ""
+Function exo10
+{
+    for ($i = 0; $i -lt 11; $i++) {
+        $i * 13
+    }
+}
 
+Function exo11
+{
+    $word = Read-Host 'Give me a word'
+    $word.Length
+}
 
-Avant d'aborder les carrières en cybersécurité et ce qu'est la sécurité offensive, intéressons-nous au piratage (et oui, c'est  légal,  tous les exercices sont de fausses simulations)
+Function exo12
+{
+    $number = Read-Host 'Give me a number'
+    if ($number % 2)
+    {
+        Write-Host "Nombre impaire"
+    }
+    else
+    {
+        Write-Host "Nombre paire"
+    }
+}
 
-Votre premier hack
+Function exo13
+{
+    $number = Read-Host 'Give me a number between 10 and 20'
+    if ($number -lt 10 -or $number -gt 20)
+    {
+        Write-Host "Bad"
+        exo13
+    }
+    else
+    {
+        Write-Host "Good"
+    }
+}
 
-Cliquez sur le bouton "Démarrer la machine". Une fois chargé, vous aurez accès à une machine que vous utiliserez pour pirater une fausse application bancaire appelée FakeBank.
+Function exo14
+{
+    $number = Read-Host 'Give me a number'
+    for ($i = [int]$number; $i -lt [int]$number + 10; $i++) {
+        $i
+    }
+}
 
-Nous utiliserons une application en ligne de commande appelée "GoBuster" pour forcer brutalement le site Web de FakeBank à trouver des répertoires et des pages cachés. GoBuster prendra une liste de noms de pages ou de répertoires potentiels et essaiera d'accéder à un site Web avec chacun d'eux ; si la page existe, elle vous le dit.
+Function exo15
+{
+    $number = Read-Host 'Give me a number'
+    for ($i = 0; $i -lt 11; $i++) {
+        $i * [int]$number
+    }
+}
 
-Étape 1) Ouvrir un terminal
+Function exo16
+{
+    $number = Read-Host 'Give me a number'
+    $count = 0
+    for ($i = 0; $i -le [int]$number; $i++) {
+        $count = $count + $i
+    }
+    $count
+}
 
-Un terminal, également connu sous le nom de ligne de commande, nous permet d'interagir avec un ordinateur sans utiliser d'interface utilisateur graphique. Sur la machine, ouvrez le terminal à l'aide de l'icône Terminal :  
+Function exo17
+{
+    $number = Read-Host 'Give me a number'
+    if ($number -ge 6 -and $number -le 7) {
+        Write-Host "Poussin"
+    }
+    elseif ($number -ge 8 -and $number -le 9)
+    {
+        Write-Host "Pupille"
+    }
+    elseif ($number -ge 10 -and $number -le 11)
+    {
+        Write-Host "Minime"
+    }
+    elseif ($number -ge 12)
+    {
+        Write-Host "Cadet"
+    }
+    else
+    {
+        Write-Host "Too small"
+    }
+}
 
-Bloqué? Voir la vidéo
+Function exo18
+{
+    Get-ChildItem -Path . -Filter *.old | Rename-Item -NewName {[System.IO.Path]::ChangeExtension($_.Name, ".txt")}
+}
 
+Function exo19 ($code)
+{
+    $url = "https://geo.api.gouv.fr/communes?codePostal=" + $code
+    $reponse = Invoke-WebRequest $url  -Method 'GET'
+    $reponse.Content
+}
 
-Étape 2) Trouver les pages cachées du site Web
+Function exo20
+{
+    [int]$number = Read-Host 'Give me a number'
+    $count = $number
+    while ($number -gt 1)
+    {
+        $number = $number - 1
+        $count = $count * $number
+    }
+    $count
+}
 
-La plupart des entreprises auront une page de portail d'administration, permettant à leur personnel d'accéder aux commandes d'administration de base pour les opérations quotidiennes. Pour une banque, un employé peut avoir besoin de transférer de l'argent vers et depuis les comptes des clients. Souvent, ces pages ne sont pas rendues privées, ce qui permet aux attaquants de trouver des pages cachées qui affichent ou donnent accès à des contrôles d'administration ou à des données sensibles.
+Function exo21
+{
+    [int]$number = Read-Host 'Give me a number'
+    [System.Collections.ArrayList]$binaire = @()
+    while ($number -ge 1)
+    {
+        $modulo = $number % 2
+        $binaire.Add($modulo)
+        $number = $number / 2
+    }
 
-Tapez la commande suivante dans le terminal pour trouver des pages potentiellement cachées sur le site Web de FakeBank à l'aide de GoBuster (une application de sécurité en ligne de commande).
+    $binaire.Reverse()
+    Write-Host $binaire
+}
 
+Function exo22
+{
+    $a = 3
+    $somme_a = 0
+    $b = 5
+    $somme_b = 0
+    while ($a -lt 1000)
+    {
+        $a = $a + 3
+        $somme_a = $a + $somme_a
+    }
 
-Ne vous inquiétez pas si vous n'avez jamais utilisé de terminal auparavant - TryHackMe vous guide à travers tout !
+    while ($b -lt 1000)
+    {
+        $b = $b + 5
+        $somme_b = $b + $somme_b
+    }
 
-Dans la commande ci-dessus, -uest utilisé pour indiquer le site Web que nous analysons, -wprend une liste de mots à parcourir pour trouver des pages cachées.
+    echo $somme_a
+    echo $somme_b
+}
 
-Vous verrez que GoBuster scanne le site Web avec chaque mot de la liste, trouvant les pages qui existent sur le site. GoBuster vous aura indiqué les pages qu'il a trouvées dans la liste des noms de pages/répertoires (indiqué par Status : 200).
-
-Étape 3) Pirater la banque
-
-Vous devriez avoir trouvé une page de virement bancaire secrète qui vous permet de transférer de l'argent entre les comptes à la banque (/bank-transfer). Tapez la page cachée dans le site Web de FakeBank sur la machine.
-
-Bloqué? Voir la vidéo
-
-Cette page permet à un attaquant de voler de l'argent sur n'importe quel compte bancaire, ce qui représente un risque critique pour la banque. En tant que pirate informatique éthique, vous trouveriez (avec permission) des vulnérabilités dans leur application et les signaleriez à la banque pour qu'elle les corrige avant qu'un pirate informatique ne les exploite.
-
-Transférez 2 000 $ du compte bancaire 2276 à votre compte (numéro de compte 8881).
-
-
-
-
-Qu'est-ce que la sécurité offensive ? 
-
-
-
-En bref, la sécurité offensive est le processus qui consiste à pénétrer dans les systèmes informatiques, à exploiter les bogues logiciels et à trouver des failles dans les applications pour y accéder sans autorisation.
-
-Pour battre un hacker, vous devez vous comporter comme un hacker, trouver des vulnérabilités et recommander des correctifs avant qu'un cybercriminel ne le fasse, comme vous l'avez fait dans cette salle !
-
-D'un autre côté, il y a aussi la sécurité défensive, qui est le processus de protection du réseau et des systèmes informatiques d'une organisation en analysant et en sécurisant toutes les menaces numériques potentielles ; en savoir plus dans la salle d'investigation numérique.
-
-Dans un cyber rôle défensif, vous pourriez enquêter sur des ordinateurs ou des appareils infectés pour comprendre comment ils ont été piratés, traquer les cybercriminels ou surveiller l'infrastructure à la recherche d'  activités malveillantes.
-
-
-
-Carrières en cybersécurité :
-
-Comment puis-je commencer à apprendre ?
-
-Les gens se demandent souvent comment les autres deviennent des pirates (consultants en sécurité) ou des défenseurs (analystes en sécurité luttant contre la cybercriminalité), et la réponse est simple. Décomposez-le, apprenez un domaine de la cybersécurité qui vous intéresse et entraînez-vous régulièrement à l'aide d'exercices pratiques. Prenez l'habitude d'apprendre un peu chaque jour sur TryHackMe et vous acquerrez les connaissances nécessaires pour obtenir votre premier emploi dans l'industrie.
-
-Fais nous confiance; tu peux le faire! Jetez un œil à certaines personnes qui ont utilisé TryHackMe pour obtenir leur premier emploi de sécurité :
-
-Paul est passé d'ouvrier du bâtiment à ingénieur en sécurité. En savoir plus (https://tryhackme.com/resources/blog/construction-worker-to-security-engineer-how-paul-used-tryhackme-to-land-his-first-job-in-security).
-Kassandra est passée de professeur de musique à professionnelle de la sécurité. En savoir plus  (https://tryhackme.com/resources/blog/the-teacher-becomes-the-student) .
-Brandon a utilisé TryHackMe à l'école pour obtenir son premier emploi dans le cyber. En savoir plus (https://tryhackme.com/resources/blog/brandons-success-story).
-Quels sont les métiers ?
-
-La salle des carrières cyber approfondit les différentes carrières dans le cyber. Cependant, voici une brève description de quelques rôles de sécurité offensifs :
-
-Testeur d'intrusion - Responsable des tests de produits technologiques pour trouver des vulnérabilités de sécurité exploitables.
-Red Teamer - Joue le rôle d'un adversaire, attaquant une organisation et fournissant des commentaires du point de vue d'un ennemi.
-Ingénieur en sécurité - Concevez, surveillez et maintenez des contrôles de sécurité, des réseaux et des systèmes pour aider à prévenir les cyberattaques.
+Function exo23
+{
+    $a = 0
+    $fib = 1
+    $start = 0
+    while ($a -lt 1500)
+    {
+        $a = $a + 1
+        $n = $fib + $start
+        $start = $fib
+        $fib = $n
+    }
+    echo $fib
+}
